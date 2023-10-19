@@ -1,0 +1,14 @@
+<ng-container *ngIf="formGroup">
+  <app-custom-input [label]="'Name'"
+                    [control]="formGroup | getFormControl:'name'">
+  </app-custom-input>
+
+  <app-custom-select [label]="'Parent'"
+                     [control]="formGroup | getFormControl:'parent'"
+                     [optionList]="folderList$ | async | filterItemList:[currentFolder.id]"
+                     [defaultValue]="'None'">
+  </app-custom-select>
+
+  <div class="btn-add" (click)="save()">Save Changes</div>
+</ng-container>
+

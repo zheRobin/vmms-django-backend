@@ -1,0 +1,77 @@
+@import 'projects/management/src/assets/mixins';
+
+.input {
+  display: flex;
+  flex-direction: column;
+
+  .input-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .working-hours-grid {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+
+    .checkbox {
+      display: flex;
+      flex-direction: column;
+      width: max-content;
+
+      mat-checkbox {
+        height: 100%;
+        margin: auto 0;
+        display: flex;
+      }
+    }
+
+    .clock {
+      display: grid;
+      grid-template-areas:
+      'label label label'
+      'hours divider minutes';
+
+      img {
+        cursor: pointer;
+
+        &.disabled {
+          cursor: default;
+        }
+      }
+    }
+
+    label {
+      grid-area: label;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .hours {
+      grid-area: hours;
+    }
+
+    .divider {
+      grid-area: divider;
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+    }
+
+    .minutes {
+      grid-area: minutes;
+    }
+
+    .hours, .minutes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .input-field {
+    @include input;
+    text-align: center;
+    width: 3rem;
+  }
+}

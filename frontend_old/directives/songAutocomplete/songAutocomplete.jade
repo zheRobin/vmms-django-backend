@@ -1,0 +1,12 @@
+.pa-container
+    .form-group
+        input.form-control(
+            ng-class='{"pa-query-field__suggestions": songs.length > 0}',
+            ng-model='query',
+            ng-model-options='{ debounce: 200 }',
+            ng-trim="false",
+            placeholder='Start typing song or artist name...'
+        )
+    .pa-suggestions
+        .pa-suggestion(ng-class='{"pa-suggestion__last": $last, "pa-suggestion__first": $first}', ng-click='select(s)', ng-repeat='s in songs track by s.id')
+            {{ getLabel(s) }}

@@ -1,0 +1,43 @@
+<h3 class="page-header">Versions</h3>
+
+<div class="page-content">
+  <div class="list">
+    <app-spinner *ngIf="!(playerVersionList$ | async); else data"></app-spinner>
+
+    <ng-template #data>
+      <div *ngIf="currentPlayerVersion$ | async" class="current-version">
+        <app-custom-select [label]="'Current Version'"
+                           [control]="versionControl"
+                           [optionList]="optionList">
+        </app-custom-select>
+
+        <ng-container *ngIf="versionControl.disabled; else saveButton">
+          <button class="btn-edit" (click)="editPlayerVersion()">Edit Current Version</button>
+        </ng-container>
+        <ng-template #saveButton>
+          <button class="btn-add" (click)="savePlayerVersion()">Update Current Version</button>
+        </ng-template>
+      </div>
+
+      <div class="version-table">
+        <div class="version-row header">
+          <span>Version String</span>
+          <span>Release Date</span>
+        </div>
+        <div *ngFor="let version of (playerVersionList$ | async)" class="version-row"
+             [ngClass]="{'active': (currentItem$ | async)?.id === version.id}"
+             (click)="select(version.id)">
+          <span>{{version.version_string}}</span>
+          <span>{{version.created_at | date}}</span>
+        </div>
+      </div>
+    </ng-template>
+
+    <button class="btn-add" (click)="create()">
+      Upload New Release
+    </button>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

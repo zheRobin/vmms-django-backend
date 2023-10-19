@@ -1,0 +1,35 @@
+<h3 class="page-header">Group Schedule</h3>
+
+<div class="page-content">
+  <div class="list">
+    <app-spinner *ngIf="!(groups$ | async); else data"></app-spinner>
+
+    <ng-template #data>
+      <div class="group-table">
+        <div class="group-row header">
+          <span>Name</span>
+        </div>
+        <div *ngFor="let group of (groups$ | async)" class="group-row"
+             [ngClass]="{'active': (currentItem$ | async)?.id === group.id}"
+             (click)="select(group.id)">
+          <span>{{group.name}}</span>
+        </div>
+      </div>
+    </ng-template>
+
+    <button class="btn-add" (click)="create()">
+      Create New Group
+    </button>
+
+    <button *ngIf="(currentItem$ | async) as currentItem" class="btn-edit" (click)="edit(currentItem)">
+      Edit Selected
+    </button>
+
+    <button *ngIf="(currentItem$ | async) as currentItem" class="btn-remove" (click)="delete(currentItem)">
+      Remove Selected
+    </button>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

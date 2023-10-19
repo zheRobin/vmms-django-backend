@@ -1,0 +1,36 @@
+.tall-tags-input-container tags-input {
+    height: 94px !important;
+}
+
+.tall-tags-input-container .tags {
+    height: 94px;
+}
+
+
+.trashcan {
+    list-style: none;
+}
+
+.trashcan li {
+    list-style: none;
+    text-align: center;
+}
+
+.trashcan li img {
+    max-width: 128px;
+}
+
+.tag__included {
+    background-color: #5cb85c !important;
+    border-color: #4cae4c !important;
+}
+
+.tag__excluded {
+    background-color: #d9534f !important;
+    border-color: #d43f3a !important;
+}
+
+.tag__excluded .remove-button,
+.tag__included .remove-button {
+    color: white !important;
+}

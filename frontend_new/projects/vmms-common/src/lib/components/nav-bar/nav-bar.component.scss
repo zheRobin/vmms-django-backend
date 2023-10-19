@@ -1,0 +1,40 @@
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  position: relative;
+  height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid #e7e7e7;
+
+  .nav-item {
+    font-size: 14px;
+    padding: 15px;
+    color: #777;
+    cursor: pointer;
+
+    &.home {
+      font-size: 18px;
+    }
+
+    :host-context(.desktop) &.logout {
+      margin-left: auto;
+      padding: 15px 30px;
+    }
+
+    &:hover {
+      color: #555;
+    }
+
+    &.active {
+      color: #555;
+      background-color: #e7e7e7;
+    }
+  }
+}
+
+.menu-toggle {
+  margin-left: auto;
+  margin-right: 15px;
+}

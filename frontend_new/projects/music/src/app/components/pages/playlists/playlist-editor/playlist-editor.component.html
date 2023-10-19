@@ -1,0 +1,121 @@
+<h4>{{ playlistId ? 'Edit content pool' : 'New content pool' }}</h4>
+
+<div *ngIf="(playlistDependents$ | async) as dependents" class="dependents">
+  <span class="title">Dependents</span>
+  <span>Client basic content: {{dependents.client_basic_content_count}}</span>
+  <span>Client content: {{dependents.client_content_count}}</span>
+  <span>Events: {{dependents.events_count}}</span>
+  <span>Programs with this content pool:
+    <div class="value-with-tooltip" [matTooltipDisabled]="!dependents.programs_with_playlist.programs.length"
+         [matTooltip]="dependents.programs_with_playlist.programs | getDependentsList">
+      {{dependents.programs_with_playlist.count}}
+    </div>
+  </span>
+</div>
+
+<ng-container *ngIf="formGroup">
+  <div class="control-panel">
+    <button [disabled]="formGroup.get('contentMode')?.value === '1'" class="btn-add" (click)="save()">
+      Save this playlist
+    </button>
+    <button *ngIf="(playlist$ | async) as playlist" class="btn-remove" (click)="discard(playlist)">
+      Discard changes
+    </button>
+  </div>
+
+  <form class="form" [formGroup]="formGroup">
+    <div class="main-data" [ngClass]="{'main-data-edited': !!playlistId}">
+      <app-custom-input *ngIf="!!playlistId" [label]="'Auto ID'"
+                        [control]="formGroup | getFormControl:'id'">
+      </app-custom-input>
+
+      <app-custom-input [label]="'Name'" [placeholder]="'Playlist name'"
+                        [control]="formGroup | getFormControl:'name'">
+      </app-custom-input>
+
+      <app-custom-color-selector [label]="'Color'"
+                                 [control]="formGroup | getFormControl:'color'">
+      </app-custom-color-selector>
+
+      <app-custom-file-input [label]="'Cover'"
+                             [control]="formGroup | getFormControl:'cover'"
+                             (fileSelected)="uploadCover($event)">
+      </app-custom-file-input>
+
+      <app-custom-select [label]="'Parent'"
+                         [control]="formGroup | getFormControl:'parent'"
+                         [optionList]="(folderList$ | async) || []" [defaultValue]="'None'">
+      </app-custom-select>
+    </div>
+
+    <app-custom-select [label]="'Content Mode'"
+                       [control]="formGroup | getFormControl:'contentMode'"
+                       [optionList]="contentModeList">
+    </app-custom-select>
+
+    <ng-container *ngIf="formGroup.get('contentMode')?.value === '0'">
+      <div *ngIf="(filterList$ | async) as filterList">
+        <label>Filters</label>
+        <div class="filters">
+          <ng-container *ngFor="let filterForm of (formGroup | getFormArray:'filters').controls; index as i">
+            <app-custom-filter-input [group]="filterForm | getFormGroup" [optionList]="filterList"
+                                     (filterRemoved)="removeFilter(i)">
+            </app-custom-filter-input>
+          </ng-container>
+          <button class="btn-add" (click)="addFilter('', '', '')">
+            <img [ngSrc]="'assets/icons/plus.svg'" [height]="16" [width]="16" alt="">
+            Add Filter
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <Label>Own tags</Label>
+        <div class="filters">
+          <app-custom-tag-selector [label]="'Include tags'"
+                                   [optionList]="(tagList$ | async) || []"
+                                   [excludedList]="excludedTagList"
+                                   [control]="formGroup | getFormControl:'includedTags'"
+                                   [placeholder]="'Add a tag'" [tagStyle]="'include'">
+          </app-custom-tag-selector>
+
+          <app-custom-tag-selector [label]="'Exclude tags'"
+                                   [optionList]="(tagList$ | async) || []"
+                                   [excludedList]="excludedTagList"
+                                   [control]="formGroup | getFormControl:'excludedTags'"
+                                   [placeholder]="'Add a tag'" [tagStyle]="'exclude'">
+          </app-custom-tag-selector>
+        </div>
+      </div>
+
+      <app-custom-genre-selector [label]="'Genres'"
+                                 [categoryList]="(categoryList$ | async) || []"
+                                 [control]="formGroup | getFormControl:'genres'">
+      </app-custom-genre-selector>
+
+      <app-custom-textarea-input [label]="'Notes'"
+                                 [control]="formGroup | getFormControl:'notes'">
+      </app-custom-textarea-input>
+    </ng-container>
+
+    <ng-container *ngIf="formGroup.get('contentMode')?.value === '1'">
+      <span>This feature is currently unavailable.</span>
+    </ng-container>
+  </form>
+
+  <div class="preview">
+    <span class="title">Content Pool Preview</span>
+
+    <div class="control-panel" *ngIf="playlist$ | async as playlist">
+      <button [disabled]="formGroup.get('contentMode')?.value === '1'" class="btn" (click)="preview(playlist)">
+        Load Content Pool Preview
+      </button>
+    </div>
+
+    <app-spinner *ngIf="previewIsLoading" [height]="120" [width]="120"></app-spinner>
+
+    <app-songs-preview *ngIf="(preview$ | async) as preview"
+                       [previewSongs]="preview?.songs || []">
+    </app-songs-preview>
+  </div>
+</ng-container>

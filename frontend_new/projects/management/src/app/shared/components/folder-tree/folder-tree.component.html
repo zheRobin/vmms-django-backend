@@ -1,0 +1,46 @@
+<ng-container *ngFor="let folder of (fileSystemSlice?.folders || [])">
+  <ng-container *ngIf="search || (folder | isFolderOpened:fullFileSystem:(openedFolder$ | async)); else closedFolder">
+    <div class="folder">
+      <img [ngSrc]="'assets/icons/folder-opened.png'" [height]="14" [width]="16" alt="folder"
+           (click)="openFolder(folder, 'folder')">
+      <ng-container *ngTemplateOutlet="folderName; context: {folder: folder}"></ng-container>
+    </div>
+    <app-folder-tree [fullFileSystem]="fileSystemSlice" [fileSystemSlice]="folder | getInnerFileSystem | filterFolderTree:search"
+                     [itemCategory]="itemCategory" [search]="search">
+    </app-folder-tree>
+  </ng-container>
+
+  <ng-template #closedFolder>
+    <div class="folder">
+      <img [ngSrc]="'assets/icons/folder-closed.png'" [height]="14" [width]="16" alt="folder"
+           (click)="openFolder(folder, 'folder')">
+      <ng-container *ngTemplateOutlet="folderName; context: {folder: folder}"></ng-container>
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #folderName let-folder="folder">
+  <span [ngClass]="{'active': (currentItem$ | async)?.id === folder.id && (currentItem$ | async)?.category === 'folder'}"
+        (click)="select(folder.id, 'folder')">
+    {{folder.name}}
+  </span>
+</ng-template>
+
+<ng-container *ngFor="let item of (fileSystemSlice?.items || [])">
+  <div class="playlist-container"
+       [ngClass]="{'active': (currentItem$ | async)?.id === item.id && (currentItem$ | async)?.category === item.type}">
+    <ng-container *ngFor="let tag of item.prefix | getPrefixList">
+      <div class="prefix" [matTooltip]="playlistPrefixList[tag]">{{tag}}</div>
+    </ng-container>
+    <span class="playlist" (click)="select(item.id, itemCategory)">
+      <mat-checkbox *ngIf="itemCategory === 'master-schedule'; else itemName" [color]="'primary'"
+                    #masterScheduleCheckbox
+                    [checked]="(item.id | getClient | async)?.master_schedule_enabled || false"
+                    (change)="enableMasterSchedule(item.id, masterScheduleCheckbox.checked)">
+        {{item.name}}
+      </mat-checkbox>
+      <ng-template #itemName>{{item.name}}</ng-template>
+    </span>
+  </div>
+</ng-container>
+

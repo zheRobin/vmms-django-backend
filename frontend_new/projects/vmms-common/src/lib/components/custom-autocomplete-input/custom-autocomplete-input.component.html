@@ -1,0 +1,14 @@
+<div class="input">
+  <label class="input-label" *ngIf="label">{{label}}</label>
+  <div class="input-container">
+    <input class="input-field" [type]="type" [formControl]="control" [placeholder]="placeholder"
+           [matAutocomplete]="auto">
+    <button class="btn-clear" (click)="control.setValue(null)">Clear</button>
+  </div>
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProperty">
+    <mat-option *ngFor="let option of optionList | filterItemListBySearch:control?.value"
+                [value]="option">
+      {{option.name}}
+    </mat-option>
+  </mat-autocomplete>
+</div>

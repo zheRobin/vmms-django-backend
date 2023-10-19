@@ -1,0 +1,31 @@
+<ng-container *ngIf="client$ | async as client; else spinner">
+  <h4>Schedule for client <i>{{ client?.name }}</i></h4>
+
+  <div class="basic-content">
+    <app-custom-autocomplete-input *ngIf="contentControl"
+                                   [label]="'Basic Content'" [placeholder]="'Start typing'"
+                                   [control]="contentControl"
+                                   [optionList]="(programList$ | async) || []">
+    </app-custom-autocomplete-input>
+
+    <button class="btn-save" (click)="save(client)">Save Basic Content</button>
+  </div>
+
+  <div class="control-panel">
+    <button *ngIf="!isEditorOpened" class="btn-open" (click)="open()">Open Editor</button>
+    <button *ngIf="isEditorOpened" class="btn-close" (click)="close()">Close Editor</button>
+  </div>
+
+  <app-event-editor *ngIf="isEditorOpened" [id]="clientId" [eventId]="currentEventId"
+                    (eventUpdated)="close(); setEvents([])">
+  </app-event-editor>
+
+  <app-scheduler [events]="events$ | async" [isLoading]="isLoading"
+                 (selectedEventId)="selectEvent($event)"
+                 (currentDateInterval)="setEvents($event)">
+  </app-scheduler>
+</ng-container>
+
+<ng-template #spinner>
+  <app-spinner [height]="120" [width]="120" [withoutBorder]="true"></app-spinner>
+</ng-template>

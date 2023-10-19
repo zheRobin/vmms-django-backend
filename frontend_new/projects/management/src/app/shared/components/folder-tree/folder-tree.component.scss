@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  app-folder-tree {
+    padding-left: 10px;
+  }
+
+  .folder {
+    display: flex;
+    gap: 4px;
+
+    img, span {
+      cursor: pointer;
+    }
+
+    .active {
+      background-color: #aaddff;
+      font-weight: bold;
+    }
+  }
+
+  .playlist-container {
+    display: flex;
+    gap: 4px;
+
+    &.active {
+      background-color: #aaddff;
+      font-weight: bold;
+    }
+  }
+
+  .playlist {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+
+  .prefix {
+    width: fit-content;
+    border-bottom: 1px dotted black;
+  }
+
+  .amount {
+    font-weight: bold;
+  }
+
+  .program-playlists {
+    padding-left: 10px;
+  }
+}

@@ -1,0 +1,87 @@
+div
+    div.filter(ng-repeat="filter in filters")
+        select.filter-field.form-control(
+            ng-model="filter.field",
+            ng-options="filterField for filterField in getFields(filter)"
+        )
+        span(ng-switch="getFilterDataType(filter)")
+            span(ng-switch-when="text")
+                select.filter-word.form-control(
+                    ng-model="filter.word",
+                    ng-options="filterWord for filterWord in filterWords.text"
+                )
+            span(ng-switch-when="number")
+                select.filter-word.form-control(
+                    ng-model="filter.word",
+                    ng-options="filterWord for filterWord in filterWords.number"
+                )
+            span(ng-switch-when="boolean")
+                select.filter-word.form-control(
+                    ng-model="filter.word",
+                    ng-options="filterWord for filterWord in filterWords.boolean"
+                )
+            span(ng-switch-when="selector")
+                select.filter-word.form-control(
+                    ng-model="filter.word",
+                    ng-options="filterWord for filterWord in filterWords.boolean"
+                )
+            span(ng-switch-when="date")
+                select.filter-word.form-control(
+                    ng-model="filter.word",
+                    ng-options="filterWord for filterWord in filterWords.date"
+                )
+        span(ng-switch="getFilterDataType(filter)")
+            span(ng-switch-when="text")
+                tags-input.ti-filter(
+                    style="height: 34px;",
+                    ng-model="filter.values",
+                    placeholder="Type any string and hit Enter",
+                    replace-spaces-with-dashes="false"
+                )
+            span(ng-switch-when="number")
+                tags-input.ti-filter(
+                    style="height: 34px;",
+                    ng-model="filter.values",
+                    placeholder="Type a number and hit Enter",
+                )
+            span(ng-switch-when="selector")
+                tags-input.ti-filter(
+                    style="height: 34px;",
+                    ng-model="filter.values",
+                    key-property="id",
+                    display-property="name",
+                    placeholder="Start typing",
+                    add-tags-from-autocomplete-only="true",
+                    replace-spaces-with-dashes="false"
+                )
+                    auto-complete(
+                        source="filterOptions($query, options[filter.field])",    
+                        min-length="0",
+                        max-results-to-show="999",
+                        load-on-focus="true",
+                        load-on-empty="true"
+                    )
+            span(ng-switch-when="date")
+                .dropdown#filter-date-dropdown
+                    a#f-date-dropdown.dropdown-toggle(role='button', data-toggle='dropdown')
+                        .input-group
+                            input.form-control(
+                                type='text',
+                                ng-model='filter.value',
+                                readonly,
+                                datepicker-timezone
+                            )
+                            span.input-group-addon
+                                i.glyphicon.glyphicon-calendar
+                    ul.dropdown-menu(role='menu')
+                        datetimepicker(
+                            ng-model='filter.value',
+                            datepicker-timezone,
+                            datetimepicker-config="{ startView:'day', minView:'day' }"
+                        )
+        button.btn.btn-danger(ng-click="remove(filter)")
+            | Remove filter 
+            i.glyphicon.glyphicon-minus
+    button.btn.btn-success(ng-click="createNew()")
+        | Add filter
+        i.glyphicon.glyphicon-plus

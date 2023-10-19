@@ -1,0 +1,44 @@
+.row
+    h4 
+        span(ng-show='isNew')
+            | New user
+        span(ng-hide='isNew')
+            | Edit user
+
+form.form(autocomplete="off")
+    .row
+        .form-group(ng-hide='isNew')
+            label
+                | Auto ID
+            input.form-control(ng-model="user.id", readonly, placeholder="1")
+
+    .row
+        .form-group
+            label
+                | Name
+            input.form-control(ng-model="user.username", placeholder="Username")
+
+    .row
+        .form-group
+            label
+                | Password
+            span(ng-show="isNew")
+                input.form-control(type="password", ng-model="user.password", placeholder="Secure password")
+            span(ng-hide="isNew")
+                input.form-control(type="password", ng-model="user.password", placeholder="Leave this empty if you do not want to change it")
+    .row
+        .form-group
+            label
+                | Group
+            select.form-control(ng-model="user.group", ng-options="group for group in userGroups")
+
+
+    .row
+        .btn-toolbar
+            button.btn.btn-success(ng-click='save()')
+                span(ng-show="isNew")
+                    | Add new user
+                span(ng-hide="isNew")
+                    | Save changes
+            button.btn.btn-danger(ng-hide="isNew", ng-click='reset()')
+                | Discard changes

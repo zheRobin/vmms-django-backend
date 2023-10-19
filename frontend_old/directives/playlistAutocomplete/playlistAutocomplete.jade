@@ -1,0 +1,13 @@
+.pa-container
+    .form-group(ng-class="{'has-success': model !== undefined, 'has-feedback': model !== undefined}")
+        .input-group
+            input.form-control(ng-class='{"pa-query-field__suggestions": playlists.length > 0}', ng-model='query', placeholder='Start typing playlist name...')
+            span.input-group-btn
+                button.btn.btn-info(ng-click="clear()")
+                    | Clear
+        span.content-autocomplete-feedback.glyphicon.glyphicon-ok.form-control-feedback(ng-hide="model === undefined")
+    .pa-suggestions
+        .pa-suggestion(ng-class='{"pa-suggestion__last": $last, "pa-suggestion__first": $first}', ng-click='select(p)', ng-repeat='p in playlists track by p.id')
+            {{ p.name }}
+            i(ng-if='p.filters.length > 0') 
+                | ({{ p.filters.length }} filter{{ p.filters.length > 1 ? 's' : ''}}) 

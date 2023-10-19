@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>VMMS - Client</title>
+        <script type="text/javascript" src="{% static "client.bundle.js" %}"></script>
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body data-ng-app="vlans" data-ng-strict-di>
+        <div ui-view></div>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+.page-header
+    h3 Program management
+.col-xs-4.col-lg-4
+    .row
+        h4 Programs list
+        div.loader-container.loader-container__clients(ng-show="showLoader")
+            div.loader
+    .row
+        .col-xs-4
+            input.form-control-sm(placeholder="Search...", ng-model="searchQuery")
+
+    .row.tree-programs-container
+        treecontrol(class="tree-classic", options="treeOptions", tree-model="programsTree", on-selection="onSelection(node, selected)", selected-node="selectedNode", on-node-toggle="onNodeToggle(node, expanded)", expanded-nodes="programsTreeExpandedNodes")
+            span(ng-bind-html="labels[node.route + node.id]")
+
+    .row
+        .form-group
+            .btn-group
+                btn.btn.btn-default.disabled
+                    | Create
+                btn.btn.btn-success(ng-click="createNew()")
+                    | Program
+                btn.btn.btn-success(ng-click="createNewFolder()")
+                    | Folder 
+                    
+    .row(ng-show="!editedPlaylist.$fake")
+        .form-group
+            btn.btn.btn-danger(ng-click="removeSelected()")
+                | Remove selected
+
+    .row(ng-show="selectedNode !== null && selectedNode.route === 'program-folder'")
+        .form-group
+            btn.btn.btn-info(ng-click="renameSelectedFolder()")
+                | Rename folder
+
+    .row(ng-show="selectedNode !== null && selectedNode.route === 'program'")
+        .form-group
+            btn.btn.btn-info(ng-click="copyProgram()")
+                | Copy program
+
+.col-xs-8.col-lg-8
+    div(ng-hide="!showProgram")
+        program-editor(model="editedProgram")
+    div(ng-hide="!showPlaylist")
+        playlist-editor(model="editedPlaylist")
+    div(ng-show="!showProgram && !showPlaylist")
+        h4 Welcome to the program management screen
+        p 
+        | You can start by clicking on the program names on the left to edit them, or  
+        a(ng-click="createNew()") add a new one.

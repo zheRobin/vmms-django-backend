@@ -1,0 +1,21 @@
+<div class="input">
+  <label class="input-label" *ngIf="label">{{label}}</label>
+  <div class="input-field" matAutocompleteOrigin #origin="matAutocompleteOrigin">
+    <div *ngFor="let tag of control.value; index as i" class="tag" [ngClass]="tagStyle">
+      {{tag | getItemLabelById:optionList}}
+      <img [ngSrc]="'assets/icons/xmark.svg'" [height]="16" [width]="16" alt="" (click)="removeTag(i)">
+    </div>
+    <form class="inner-form" [formGroup]="formGroup">
+      <input class="inner-input" formControlName="tag" [placeholder]="placeholder"
+             [matAutocomplete]="auto"
+             [matAutocompleteDisabled]="!optionList.length"
+             [matAutocompleteConnectedTo]="origin">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
+        <mat-option *ngFor="let option of optionList | filterItemList:excludedList | filterItemListBySearch:formGroup.get('tag')?.value"
+                    [value]="option.id">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </form>
+  </div>
+</div>

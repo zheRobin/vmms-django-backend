@@ -1,0 +1,38 @@
+<h3 class="page-header">Master Schedule</h3>
+
+<div class="page-content">
+  <div class="list">
+    <app-spinner *ngIf="!(currentFileSystem$ | async); else data"></app-spinner>
+
+    <ng-template #data>
+      <app-custom-input [control]="searchControl" [placeholder]="'Search'">
+      </app-custom-input>
+
+      <app-folder-tree [fullFileSystem]="currentFileSystem$ | async"
+                       [fileSystemSlice]="currentFileSystem$ | async | filterFolderTree:searchControl.value"
+                       [itemCategory]="'master-schedule'"
+                       [search]="searchControl.value">
+      </app-folder-tree>
+
+      <div class="buttons-line">
+        <button class="btn-add" (click)="enableAll(true)">Enable all</button>
+        <button class="btn-remove" (click)="enableAll(false)">Disable all</button>
+      </div>
+    </ng-template>
+  </div>
+  <div class="content">
+    <div class="control-panel">
+      <button *ngIf="!isEditorOpened" class="btn-open" (click)="open()">Open Editor</button>
+      <button *ngIf="isEditorOpened" class="btn-close" (click)="close()">Close Editor</button>
+    </div>
+
+    <app-event-editor *ngIf="isEditorOpened" [id]="-1" [eventId]="currentEventId"
+                      (eventUpdated)="close(); setEvents([])">
+    </app-event-editor>
+
+    <app-scheduler [events]="events$ | async" [isLoading]="isLoading"
+                   (selectedEventId)="selectEvent($event)"
+                   (currentDateInterval)="setEvents($event)">
+    </app-scheduler>
+  </div>
+</div>

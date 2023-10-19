@@ -1,0 +1,21 @@
+<ng-container *ngIf="group$ | async as group; else spinner">
+  <h4>Schedule for client group <i>{{ group?.name }}</i></h4>
+
+  <div class="control-panel">
+    <button *ngIf="!isEditorOpened" class="btn-open" (click)="open()">Open Editor</button>
+    <button *ngIf="isEditorOpened" class="btn-close" (click)="close()">Close Editor</button>
+  </div>
+
+  <app-event-editor *ngIf="isEditorOpened" [id]="groupId" [category]="'client-group'" [eventId]="currentEventId"
+                    (eventUpdated)="close(); setEvents([])">
+  </app-event-editor>
+
+  <app-scheduler [events]="events$ | async" [isLoading]="isLoading"
+                 (selectedEventId)="selectEvent($event)"
+                 (currentDateInterval)="setEvents($event)">
+  </app-scheduler>
+</ng-container>
+
+<ng-template #spinner>
+  <app-spinner [height]="120" [width]="120" [withoutBorder]="true"></app-spinner>
+</ng-template>

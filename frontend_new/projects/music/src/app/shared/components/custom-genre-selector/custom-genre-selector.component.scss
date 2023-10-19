@@ -1,0 +1,35 @@
+@import 'projects/music/src/assets/mixins';
+
+.input {
+  display: flex;
+  flex-direction: column;
+
+  .input-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .genre-layout {
+    column-count: 3;
+    column-gap: 10px;
+  }
+
+  .category {
+    display: inline-block;
+    width: -webkit-fill-available;
+    border: 1px solid grey;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 10px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .category-title {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+  }
+}

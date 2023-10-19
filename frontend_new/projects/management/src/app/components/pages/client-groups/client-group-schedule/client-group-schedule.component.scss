@@ -1,0 +1,17 @@
+@import 'projects/management/src/assets/mixins';
+
+.control-panel {
+  display: flex;
+  gap: 16px;
+  margin: 0 0 16px;
+
+  .btn-open {
+    @include button-add;
+    width: fit-content;
+  }
+
+  .btn-close {
+    @include button-remove;
+    width: fit-content;
+  }
+}

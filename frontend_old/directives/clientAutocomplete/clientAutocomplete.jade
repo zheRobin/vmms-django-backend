@@ -1,0 +1,19 @@
+.pa-container
+    .form-group(ng-class="\
+        {\
+            'has-success': model !== undefined && !model.$empty,\
+            'has-feedback': model !== undefined && !model.$empty\
+        }"
+    )
+        input.form-control(
+            ng-class='{"pa-query-field__suggestions": objects.length > 0}',
+            ng-click="onContainerClick()",
+            ng-model='query',
+            ng-readonly="readonly",
+            ng-disabled="readonly",
+            placeholder='{{ "Start typing client name..." }}'
+        )
+        span.glyphicon.glyphicon-ok.form-control-feedback(ng-hide="model === undefined || model.$empty")
+    .pa-suggestions
+        .pa-suggestion(ng-class='{"pa-suggestion__last": $last, "pa-suggestion__first": $first}', ng-click='select(o)', ng-repeat='o in objects track by o.id')
+            {{ getLabel(o)  }}

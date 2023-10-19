@@ -1,0 +1,37 @@
+<ng-container *desktop></ng-container>
+<ng-container *ngIf="client$ | async as client; else spinner">
+  <div class="logo-container">
+    <img src="/assets/images/icon.png" alt="icon">
+    <img src="/assets/images/logo.png" alt="logo">
+  </div>
+
+  <div class="client-name">{{client.name}}</div>
+
+  <div class="player-info" *ngIf="player$ | async as player">
+    <div class="title">{{player?.last_artist_played}} - {{player?.last_song_played}}</div>
+    <div class="description">{{player?.last_playlist_played}}</div>
+    <div class="description">{{player?.last_action == 'paused' ? 'paused' : 'playing'}}</div>
+  </div>
+
+  <div class="volume-control" *ngIf="client.remote_volume_control_enabled">
+    <button class="minus" (click)="changeVolume(client.id, client.volume_request?.volume, false)">-5</button>
+    <button class="value">{{client.volume_request?.volume}}</button>
+    <button class="plus" (click)="changeVolume(client.id, client.volume_request?.volume, true)">+5</button>
+  </div>
+
+  <div class="contents">
+    <button class="content" (click)="changeContent(client.id, client.basic_content.id)"
+            [ngClass]="{'active': client.basic_content.$active, 'blinking': client.basic_content.$flashing}">
+      Daily Program - {{client.basic_content.object.name}}
+    </button>
+    <button class="content" (click)="changeContent(client.id, client.content.id)"
+            [ngClass]="{'active': content.$active, 'blinking': content.$flashing}"
+            *ngFor="let content of client.contents">
+      {{content.content.object.name}}
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #spinner>
+  <app-spinner [height]="120" [width]="120" [withoutBorder]="true"></app-spinner>
+</ng-template>

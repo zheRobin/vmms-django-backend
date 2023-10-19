@@ -1,0 +1,12 @@
+<div class="input">
+  <label class="input-label" *ngIf="label">{{label}}</label>
+  <div class="genre-layout">
+    <div class="category" *ngFor="let category of categoryList">
+      <span class="category-title">{{category.name}}</span>
+      <mat-checkbox *ngFor="let genre of category.genres" [checked]="genre.isSelected"
+                    [color]="'primary'" (change)="toggle($event.checked, genre)">
+        {{genre.name}}
+      </mat-checkbox>
+    </div>
+  </div>
+</div>

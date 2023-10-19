@@ -1,0 +1,35 @@
+.page-header
+    h3 Preview Links Management
+.row
+    .form-group
+        button.btn.btn-success(ui-sref="main.link-create")
+            | Add new program preview link 
+            i.glyphicon.glyphicon-plus
+.row
+    .form-group
+        table.table
+            thead
+                tr
+                    th ID
+                    th Name
+                    th Program
+                    th Expires at
+                    th
+                    th 
+                    th 
+            tbody
+                tr(ng-repeat="link in links")
+                    td {{ link.id }}
+                    td {{ link.name }}
+                    td {{ link.program.name }}
+                    td {{ link.expiration_date | date : "yyyy-MM-dd HH:mm:ss" }}
+                    td 
+                        a(target="_blank", href="http://preview.player.vmms.network/\#{{ nameToUrl(link.name) }}")
+                            button.btn.btn-xs.btn-success(ng-click="open(link)")
+                                | Open player
+                    td 
+                        button.btn.btn-xs.btn-info(ui-sref="main.link-preview-edit({id: link.id})")
+                            | Edit
+                    td 
+                        button.btn.btn-xs.btn-danger(ng-click="delete(link)")
+                            | Revoke & Delete

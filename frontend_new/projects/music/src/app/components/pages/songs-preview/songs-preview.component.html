@@ -1,0 +1,46 @@
+<div>Total songs count: {{previewSongs.length}}</div>
+
+<mat-table *ngIf="previewSongs.length" [dataSource]="dataSource">
+  <ng-container matColumnDef="artist">
+    <mat-header-cell *matHeaderCellDef> Artist </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element"> {{element.artist}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="artist-add">
+    <mat-header-cell *matHeaderCellDef> Artist Addition </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element"> {{element.artist_addition}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title-add">
+    <mat-header-cell *matHeaderCellDef> Title Addition </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element"> {{element.title_addition}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="tags">
+    <mat-header-cell *matHeaderCellDef> Own Tags </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element"> {{element.tags}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="last-updated-by">
+    <mat-header-cell *matHeaderCellDef> Last Updated By </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let element">
+      <div class="btn" (click)="navigateTo(element.id)">Edit</div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page">
+</mat-paginator>

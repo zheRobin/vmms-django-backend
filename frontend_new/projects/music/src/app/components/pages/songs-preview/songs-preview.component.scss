@@ -1,0 +1,5 @@
+@import 'projects/music/src/assets/mixins';
+
+.btn {
+  @include button-primary;
+}

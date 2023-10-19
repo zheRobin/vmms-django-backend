@@ -1,0 +1,41 @@
+.page-header
+    h3 Versions
+.col-xs-4.col-lg-4
+    .row
+        h4 Current version
+        div(ng-if="!editingCurrent")
+            input.form-control(ng-model="bindings.currentVersion.version_string", readonly)
+            button.btn.btn-info(ng-click="editCurrent()")
+                | Edit current version
+        div(ng-if="editingCurrent")
+            select.form-control(ng-model="bindings.currentVersion", ng-options="version as version.version_string for version in versions track by version.id")
+            .form-group
+                btn.btn.btn-success(ng-click="updateCurrent()")
+                    | Update current version
+    .row
+        h4 Versions list
+        table.table.table-hover
+            thead
+                tr
+                    th Version string
+                    th Release date
+            tbody
+                tr.user-row(
+                    ng-repeat="version in versions",
+                    ng-click="onSelection(version)"
+                )
+                    td {{ version.version_string }}
+                    td {{ version.created_at | date : 'dd/MM/yy'}}
+    .row
+        .form-group
+            btn.btn.btn-success(ng-click="createNew()")
+                | Upload new release
+.col-xs-8.col-lg-8
+    div(ng-hide="newVersion === undefined")
+        version-editor(model="newVersion")
+    div(ng-show="newVersion === undefined")
+        h4 Welcome to the player version management
+        p 
+        | You can view existing versions on the left or  
+        a(ng-click="createNew()") upload a new release
+        | .

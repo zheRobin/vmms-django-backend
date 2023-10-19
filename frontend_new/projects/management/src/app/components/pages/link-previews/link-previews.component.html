@@ -1,0 +1,19 @@
+<h3 class="page-header">Preview Links Management</h3>
+
+<div class="page-content">
+  <div class="btn-add" (click)="add()">
+    <img [ngSrc]="'assets/icons/plus.svg'" [height]="16" [width]="16" alt="">
+    Add new program preview link
+  </div>
+
+  <ng-container *ngIf="(previewLinks$ | async) as previewLinks; else spinner">
+    <app-link-preview-dashboard [linkPreviews]="previewLinks"
+                                (editClicked)="edit($event)"
+                                (removeClicked)="remove($event)">
+    </app-link-preview-dashboard>
+  </ng-container>
+
+  <ng-template #spinner>
+    <app-spinner [height]="120" [width]="120" [withoutBorder]="true"></app-spinner>
+  </ng-template>
+</div>

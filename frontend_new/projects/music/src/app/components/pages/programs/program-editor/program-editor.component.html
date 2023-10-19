@@ -1,0 +1,95 @@
+<h4>{{ programId ? 'Edit program' : 'New program' }}</h4>
+
+<div *ngIf="(programDependents$ | async) as dependents" class="dependents">
+  <span class="title">Dependents</span>
+  <span>Client basic content:
+    <div class="value-with-tooltip" [matTooltipDisabled]="!dependents.client_basic_content.clients.length"
+         [matTooltip]="dependents.client_basic_content.clients | getDependentsList">
+      {{dependents.client_basic_content.count}}
+    </div>
+  </span>
+  <span>Client content:
+    <div class="value-with-tooltip" [matTooltipDisabled]="!dependents.client_content.clients.length"
+         [matTooltip]="dependents.client_content.clients | getDependentsList">
+      {{dependents.client_content.count}}
+    </div>
+  </span>
+  <span>Events:
+    <div class="value-with-tooltip" [matTooltipDisabled]="!dependents.events.clients.length"
+         [matTooltip]="dependents.events.clients | getDependentsList">
+      {{dependents.events.count}}
+    </div>
+  </span>
+</div>
+
+<ng-container *ngIf="formGroup">
+  <div class="control-panel">
+    <button class="btn-add" (click)="save()">
+      Save this program
+    </button>
+    <button *ngIf="(program$ | async) as program" class="btn-remove" (click)="discard(program)">
+      Discard changes
+    </button>
+  </div>
+
+  <form class="form" [formGroup]="formGroup">
+    <div class="main-data" [ngClass]="{'main-data-edited': !!programId}">
+      <app-custom-input *ngIf="!!programId" [label]="'Auto ID'"
+                        [control]="formGroup | getFormControl:'id'">
+      </app-custom-input>
+
+      <app-custom-input [label]="'Name'" [placeholder]="'Program name'"
+                        [control]="formGroup | getFormControl:'name'">
+      </app-custom-input>
+
+      <app-custom-color-selector [label]="'Color'"
+                                 [control]="formGroup | getFormControl:'color'">
+      </app-custom-color-selector>
+
+      <app-custom-file-input [label]="'Cover'"
+                             [control]="formGroup | getFormControl:'cover'"
+                             (fileSelected)="uploadCover($event)">
+      </app-custom-file-input>
+
+      <app-custom-select [label]="'Parent'"
+                         [control]="formGroup | getFormControl:'parent'"
+                         [optionList]="(folderList$ | async) || []" [defaultValue]="'None'">
+      </app-custom-select>
+    </div>
+
+    <div *ngIf="(playlistList$ | async) as playlistList">
+      <label>Content Pools</label>
+      <div class="content-pools">
+        <ng-container *ngFor="let playlistForm of (formGroup | getFormArray:'playlists').controls; index as i">
+          <app-custom-playlist-input [group]="playlistForm | getFormGroup" [optionList]="playlistList"
+                                     (playlistRemoved)="removePlaylist(i)">
+          </app-custom-playlist-input>
+        </ng-container>
+        <button class="btn-add" (click)="addPlaylist()">
+          <img [ngSrc]="'assets/icons/plus.svg'" [height]="16" [width]="16" alt="">
+          Add Content Pool
+        </button>
+      </div>
+    </div>
+
+    <app-custom-textarea-input [label]="'Notes'"
+                               [control]="formGroup | getFormControl:'notes'">
+    </app-custom-textarea-input>
+  </form>
+
+  <div class="preview">
+    <span class="title">Content Pool Preview</span>
+
+    <div class="control-panel">
+      <button class="btn" (click)="preview()">
+        Load Program Preview
+      </button>
+    </div>
+
+    <app-spinner *ngIf="previewIsLoading" [height]="120" [width]="120"></app-spinner>
+
+    <app-songs-preview *ngIf="(preview$ | async) as preview"
+                       [previewSongs]="preview?.songs || []">
+    </app-songs-preview>
+  </div>
+</ng-container>

@@ -1,0 +1,7 @@
+<form [formGroup]="formGroup" class="login-form" (ngSubmit)="login()">
+  <h2>Please sign in</h2>
+  <input matInput class="input" formControlName="username" type="text">
+  <input matInput class="input" formControlName="password" type="password">
+  <button mat-raised-button type="submit" color="primary" class="button" [disabled]="formGroup.invalid">Sign In</button>
+  <!-- TODO: error -->
+</form>

@@ -1,0 +1,19 @@
+<div class="button-group">
+  <div>Create</div>
+  <div class="btn-add" (click)="create()">Client</div>
+  <div class="btn-add" (click)="createFolder()">Folder</div>
+</div>
+
+<button *ngIf="showSyncButton" class="btn-copy" (click)="sync()">
+  Sync with Monitoring
+</button>
+
+<ng-container *ngIf="(currentItem$ | async) as currentItem">
+  <button *ngIf="showCopyButton" class="btn-copy" (click)="copy(currentItem)">
+    Copy Selected
+  </button>
+
+  <button class="btn-remove" (click)="delete(currentItem)">
+    Remove Selected
+  </button>
+</ng-container>

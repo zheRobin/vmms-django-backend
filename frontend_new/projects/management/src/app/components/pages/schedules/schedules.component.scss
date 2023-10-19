@@ -1,0 +1,16 @@
+@import 'projects/management/src/assets/mixins';
+
+.page-header {
+  @include page-header;
+}
+
+.page-content {
+  @include page-content;
+  grid-template-columns: 400px auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

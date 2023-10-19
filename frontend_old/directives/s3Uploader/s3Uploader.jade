@@ -1,0 +1,13 @@
+div(ng-hide="model")
+    button.btn.btn-success(
+        ngf-select="upload($file)",
+        ngf-accept="'{{pattern}}'",
+        ngf-max-file-size="20MB"
+    )
+        | Upload file
+div(ng-show="model")
+    .input-group
+        input.form-control(ng-model="model", readonly)
+        .input-group-btn
+            button.btn.btn-info(ng-click="reupload()")
+                | Upload new file

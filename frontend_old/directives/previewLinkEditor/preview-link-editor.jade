@@ -1,0 +1,49 @@
+.row
+    h4 
+        span(ng-show='isNew')
+            | New preview link
+        span(ng-hide='isNew')
+            | Edit preview link
+
+form.form(autocomplete="off")
+    .row
+        .btn-toolbar
+            button.btn.btn-success(ng-click='save()')
+                span(ng-show="isNew")
+                    | Save this link
+                span(ng-hide="isNew")
+                    | Save changes
+
+    .row
+        .form-group(ng-hide='isNew')
+            label
+                | Auto ID
+            input.form-control(ng-model="link.id", readonly, placeholder="1")
+
+    .row
+        .form-group
+            label
+                | Name
+            input.form-control(ng-model="link.name", placeholder="Link name")
+
+    .row
+        .form-group
+            label
+                | Program
+            content-autocomplete(model="link.program", programs-only)
+    
+    .row
+        .form-group
+            label
+                | Expiration date
+            .dropdown
+                a#end-dropdown.dropdown-toggle(role='button', data-toggle='dropdown')
+                    .input-group
+                        input.form-control(type='text', value='{{ link.expiration_date | amDateFormat : "YYYY-MM-DD HH:mm:ss" }}')
+                        span.input-group-addon
+                            i.glyphicon.glyphicon-calendar
+                ul.dropdown-menu(role='menu')
+                    datetimepicker(
+                        ng-model='link.expiration_date',
+                        data-datetimepicker-config="{ dropdownSelector: '#end-dropdown' }"
+                    )

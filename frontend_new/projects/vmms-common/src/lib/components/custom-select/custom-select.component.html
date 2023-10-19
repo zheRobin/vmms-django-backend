@@ -1,0 +1,9 @@
+<div class="input">
+  <label class="input-label" *ngIf="label">{{label}}</label>
+  <select class="input-field" [formControl]="control" (change)="inputChanged.emit()">
+    <option *ngIf="defaultValue" [value]="null">{{defaultValue}}</option>
+    <option *ngFor="let option of optionList" [value]="option.id">
+      {{ option.name }}
+    </option>
+  </select>
+</div>

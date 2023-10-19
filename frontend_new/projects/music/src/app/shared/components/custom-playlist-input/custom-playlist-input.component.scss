@@ -1,0 +1,11 @@
+@import 'projects/music/src/assets/mixins';
+
+.form {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  gap: 6px;
+}
+
+.btn-remove {
+  @include button-remove;
+}

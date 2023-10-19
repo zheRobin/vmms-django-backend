@@ -1,0 +1,19 @@
+form.form(autocomplete="off")
+    div
+        .form-group
+            label
+                | Name
+            input.form-control(ng-model="folder.name", placeholder="Folder name")
+
+    div
+        .form-group
+            label
+                | Parent
+            select.form-control(ng-options="parent.id as parent.name for parent in filteredParents", ng-model="folder.parent", placeholder="")
+                option - None -
+
+    div
+        .btn-toolbar
+            button.btn.btn-success(ng-click='save()')
+                span
+                    | Save changes

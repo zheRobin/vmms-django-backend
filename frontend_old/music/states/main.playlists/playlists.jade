@@ -1,0 +1,46 @@
+.page-header
+    h3 Content pool management
+.col-xs-4.col-lg-4
+    .row
+        h4 Content pools list
+        div.loader-container.loader-container__clients(ng-show="showLoader")
+            div.loader
+    .row
+        .col-xs-4
+            input.form-control-sm(placeholder="Search...", ng-model="searchQuery")
+    .row.tree-playlists-container
+        treecontrol(class="tree-classic", tree-id="playlistsTreeView", options="treeOptions", tree-model="playlistsTree", on-selection="onSelection(node, selected)", on-node-toggle="onNodeToggle(node, expanded)", selected-node="selectedNode", expanded-nodes="playlistsTreeExpandedNodes")
+            span(ng-bind-html="labels[node.route + node.id]")
+    .row
+        .form-group
+            .btn-group
+                btn.btn.btn-default.disabled
+                    | Create
+                btn.btn.btn-success(ng-click="createNew()")
+                    | Content pool
+                btn.btn.btn-success(ng-click="createNewFolder()")
+                    | Folder
+
+    .row(ng-show="!editedPlaylist.$fake")
+        .form-group
+            btn.btn.btn-danger(ng-click="removeSelected()")
+                | Remove selected
+    .row(ng-show="selectedNode !== null && selectedNode.route === 'playlist-folder'")
+        .form-group
+            btn.btn.btn-info(ng-click="renameSelectedFolder()")
+                | Rename folder
+    .row(ng-show="selectedNode !== null && selectedNode.route === 'playlist'")
+        .form-group
+            btn.btn.btn-info(ng-click="copyPlaylist()")
+                | Copy content pool
+
+.col-xs-8.col-lg-8
+    div(ng-show="showFolderEditor")
+        folder-editor(model="selectedNode", on-save="onFolderUpdated()", parents="folders")
+    div(ng-show="showPlaylistEditor")
+        playlist-editor(model="editedPlaylist")
+    div(ng-show="showWelcome")
+        h4 Welcome to the content pool management screen
+        p 
+        | You can start by clicking on the content pool names on the left to edit them, or  
+        a(ng-click="createNew()") add a new one.

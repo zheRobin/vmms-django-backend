@@ -1,0 +1,8 @@
+{
+  "/api/v1/*": {
+    "target": "http://api.vmms.local:8000",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

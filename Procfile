@@ -1,0 +1,1 @@
+web: cd app && gunicorn --bind :8000 --workers 3 --threads 2 vmms.wsgi:application

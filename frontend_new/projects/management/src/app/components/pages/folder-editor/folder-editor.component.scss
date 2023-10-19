@@ -1,0 +1,12 @@
+@import 'projects/management/src/assets/mixins';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-add {
+  @include button-add;
+  width: fit-content;
+}

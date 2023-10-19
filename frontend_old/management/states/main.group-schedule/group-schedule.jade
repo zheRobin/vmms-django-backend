@@ -1,0 +1,50 @@
+.page-header
+    h3 Group schedule
+
+.col-xs-4.col-lg-2
+    .row
+        h4 Client groups
+        treecontrol(class="tree-classic", options="treeOptions", tree-model="groups", on-selection="onSelection(node, selected)", selected-node="selectedNode", expanded-nodes="expandedNodes")
+            input.client-checkbox(ng-if='node.route === "client"', ng-click='nodeMasterScheduleToggle($event, node)', ng-model='node.master_schedule_enabled', type='checkbox')
+            span  {{ node.name }}
+    br
+    .row
+        button.btn.btn-success(ng-click="createNewClientGroup()")
+            | Add new client group
+    br
+    .row(ng-hide="selected.group == undefined")
+        button.btn.btn-info(ng-click="editSelectedClientGroup()")
+            | Edit selected group
+    br
+    .row(ng-hide="selected.group == undefined")
+        button.btn.btn-danger(ng-click="deleteSelectedClientGroup()")
+            | Delete selected group
+
+
+.col-xs-8.col-lg-10
+    div(ng-show="showWelcome")
+        h4 Welcome to group schedule editor screen
+        p Begin by creating a new client group or selecting an existing one to see their schedule.
+
+    div(ng-show="showSchedule")
+        h3 Schedule for client group 
+            em {{ selected.group.name }}
+        .button-toolbar
+            button.btn.btn-success(ng-click="createEvent()")
+                | Add new event 
+                i.glyphicon.glyphicon-plus
+        div(ng-if="selected.event")
+            event-editor(model="selected.event", client-group="selected.group")
+        br
+        .btn-group
+            button.btn.btn-success(ng-click="changeView('week')")
+                | Week
+            button.btn.btn-success(ng-click="changeView('month')")
+                | Month
+        div.calendar-container
+            div(ui-calendar="uiConfig.calendar", calendar="scheduleCalendar" ng-model="eventSources")
+            div.loader-container(ng-if="loaderVisible")
+                div.loader
+        
+    div(ng-show="showEditor")
+        client-group-editor(model="selected.group")

@@ -1,0 +1,45 @@
+<div class="input">
+  <label class="input-label" *ngIf="label">{{label}}</label>
+  <div class="working-hours-grid">
+    <div class="checkbox">
+      <label>Is open?</label>
+      <mat-checkbox [formControl]="group | getFormControl:'open'" color="primary"
+                    (change)="enable($event.checked)">
+      </mat-checkbox>
+    </div>
+    <div class="clock">
+      <label>Opening Time</label>
+      <div class="hours">
+        <ng-container *ngTemplateOutlet="input; context: { control: group | getFormControl:'openingHours', placeholder: 'HH' }">
+        </ng-container>
+      </div>
+      <span class="divider">:</span>
+      <div class="minutes">
+        <ng-container *ngTemplateOutlet="input; context: { control: group | getFormControl:'openingMinutes', placeholder: 'mm' }">
+        </ng-container>
+      </div>
+    </div>
+    <div class="clock">
+      <label>Closing Time</label>
+      <div class="hours">
+        <ng-container *ngTemplateOutlet="input; context: { control: group | getFormControl:'closingHours', placeholder: 'HH' }">
+        </ng-container>
+      </div>
+      <div class="minutes">
+        <ng-container *ngTemplateOutlet="input; context: { control: group | getFormControl:'closingMinutes', placeholder: 'mm' }">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #input let-control="control" let-placeholder="placeholder">
+  <img [ngClass]="{'disabled': group.get('open')?.value}" [ngSrc]="'assets/icons/chevron-up.svg'"
+       [height]="16" [width]="16" alt="" (click)="increase(control, placeholder)">
+  <input class="input-field" [ngClass]="{'invalid': control.invalid}"
+         [formControl]="control" [placeholder]="placeholder"
+         (focus)="setDefault(control)"
+         (blur)="updateValue(control, placeholder)" (change)="updateValue(control, placeholder)">
+  <img [ngClass]="{'disabled': group.get('open')?.value}"  [ngSrc]="'assets/icons/chevron-down.svg'"
+       [height]="16" [width]="16" alt="" (click)="decrease(control, placeholder)">
+</ng-template>

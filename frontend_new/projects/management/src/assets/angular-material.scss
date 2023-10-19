@@ -1,0 +1,62 @@
+@import 'projects/management/src/assets/mixins';
+
+.mat-expansion-panel {
+  @include nav-bar();
+  box-shadow: none !important;
+  height: auto;
+
+  .mat-expansion-panel-header.mat-expanded {
+    height: 50px;
+    border-bottom: 1px solid #e7e7e7;
+  }
+
+  .mat-expansion-panel-header-title {
+    margin: 0;
+  }
+
+  .mat-content.mat-content-hide-toggle {
+    margin: 0;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0;
+  }
+}
+
+.mat-mdc-checkbox {
+  width: 100%;
+
+  .mdc-form-field {
+    height: 21px;
+  }
+}
+
+.mdc-tooltip__surface {
+  white-space: break-spaces;
+}
+
+.cal-scheduler-view .cal-scheduler .cal-scheduler-cols .cal-scheduler-col .cal-scheduler-event-container .cal-scheduler-event .cal-scheduler-event-title-container .cal-scheduler-event-title {
+  font-size: 12px !important;
+  font-weight: normal !important;
+  width: 100% !important;
+}
+
+.cal-scheduler-view .cal-scheduler .cal-scheduler-cols .cal-scheduler-col .cal-scheduler-event-container .cal-scheduler-event .cal-scheduler-event-actions-container.no-content-actions {
+  display: none !important;
+}
+
+.cal-today {
+  background-color: #e8fde7 !important;
+
+  &:hover {
+    background-color: darken(#e8fde7, 10) !important;
+  }
+
+  .cal-scheduler-hour-segment:hover {
+    background-color: darken(#e8fde7, 10) !important;
+  }
+}
