@@ -18,5 +18,4 @@ class IsMusicUser(permissions.BasePermission):
 
 class IsManagementUser(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.referer_host is not None and request.referer_host == 'management' and request.user.host == \
-               'management '
+        return request.referer_host is not None and request.referer_host == 'management' and request.user.host == 'management'
