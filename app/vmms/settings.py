@@ -16,20 +16,16 @@ import subprocess
 import ast
 import logging
 
-import environ
 
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
-# def get_environ_vars():
-#     completed_process = subprocess.run(
-#         ['/opt/elasticbeanstalk/bin/get-config', 'environment'],
-#         stdout=subprocess.PIPE,
-#         text=True,
-#         check=True
-#     )
+def get_environ_vars():
+    completed_process = subprocess.run(
+        ['/opt/elasticbeanstalk/bin/get-config', 'environment'],
+        stdout=subprocess.PIPE,
+        text=True,
+        check=True
+    )
 
-#     return ast.literal_eval(completed_process.stdout)
+    return ast.literal_eval(completed_process.stdout)
 
 
 
@@ -82,28 +78,28 @@ else:
     DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.vmms.network', '*']
+CSRF_TRUSTED_ORIGINS = ['https://*.vmms.network']
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 USE_X_FORWARDED_HOST = True
 
 # AWS S3 configuration for uploading new player versions
 
-# if 'S3_ACCESSKEY' in os.environ:
-#     AWS_ACCESS_KEY_ID = os.environ['S3_ACCESSKEY']
-#     AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET_ACCESS_KEY']
-#     S3_BUCKET = os.environ['S3_BUCKET']
-#     S3_REGION = os.environ['S3_REGION']
-# else:
-#     env_vars = get_environ_vars()
-#     AWS_ACCESS_KEY_ID = env_vars('S3_ACCESSKEY')
-#     AWS_SECRET_ACCESS_KEY = env_vars['S3_SECRET_ACCESS_KEY']
-#     S3_BUCKET = env_vars['S3_BUCKET']
-#     S3_REGION = env_vars['S3_REGION']
+if 'S3_ACCESSKEY' in os.environ:
+    AWS_ACCESS_KEY_ID = os.environ['S3_ACCESSKEY']
+    AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET_ACCESS_KEY']
+    S3_BUCKET = os.environ['S3_BUCKET']
+    S3_REGION = os.environ['S3_REGION']
+else:
+    env_vars = get_environ_vars()
+    AWS_ACCESS_KEY_ID = env_vars('S3_ACCESSKEY')
+    AWS_SECRET_ACCESS_KEY = env_vars['S3_SECRET_ACCESS_KEY']
+    S3_BUCKET = env_vars['S3_BUCKET']
+    S3_REGION = env_vars['S3_REGION']
 
-AWS_ACCESS_KEY_ID = os.environ['S3_ACCESSKEY']
-AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET_ACCESS_KEY']
-S3_BUCKET = os.environ['S3_BUCKET']
-S3_REGION = os.environ['S3_REGION']
+# AWS_ACCESS_KEY_ID = os.environ['S3_ACCESSKEY']
+# AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET_ACCESS_KEY']
+# S3_BUCKET = os.environ['S3_BUCKET']
+# S3_REGION = os.environ['S3_REGION']
 
 # Application definition
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -161,9 +157,6 @@ else:
         'http://music.vmms.local:8000',
         'http://client.vmms.local:8000',
         'http://player.preview.vmms.local:8080',
-        'http://management.vmms.local:4201',
-        'http://music.vmms.local:4200',
-        'http://client.vmms.local:4202',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -214,17 +207,16 @@ REST_FRAMEWORK = {
 
 DATABASES = dict()
 
-DATABASES["default"] = {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': os.environ['MAIN_RDS_DB_NAME'],
-    'USER': os.environ['MAIN_RDS_USERNAME'],
-    'PASSWORD': os.environ['MAIN_RDS_PASSWORD'],
-    'HOST': os.environ['MAIN_RDS_HOSTNAME'],
-    'PORT': os.environ['MAIN_RDS_PORT'],
-}
+DATABASES["default"] = {'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                        'NAME': os.environ['MAIN_RDS_DB_NAME'],
+                        'USER': os.environ['MAIN_RDS_USERNAME'],
+                        'PASSWORD': os.environ['MAIN_RDS_PASSWORD'],
+                        'HOST': os.environ['MAIN_RDS_HOSTNAME'],
+                        'PORT': os.environ['MAIN_RDS_PORT'],
+                        }
 
 DATABASES['import-tool'] = {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'ENGINE': 'django.db.backends.mysql',
     'NAME': os.environ['IMPORT_RDS_DB_NAME'],
     'USER': os.environ['IMPORT_RDS_USERNAME'],
     'PASSWORD': os.environ['IMPORT_RDS_PASSWORD'],
@@ -233,7 +225,7 @@ DATABASES['import-tool'] = {
 }
 
 DATABASES['promotion-tool'] = {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'ENGINE': 'django.db.backends.mysql',
     'NAME': os.environ['PROMOTION_RDS_DB_NAME'],
     'USER': os.environ['PROMOTION_RDS_USERNAME'],
     'PASSWORD': os.environ['PROMOTION_RDS_PASSWORD'],
@@ -265,7 +257,4 @@ TIME_ZONE = 'Etc/UTC'
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "..", "frontend_new", "dist"),
-)
-STATIC_ROOT = os.path.join(BASE_DIR, "vmms", "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
