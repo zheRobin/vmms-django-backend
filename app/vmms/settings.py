@@ -39,13 +39,22 @@ LOGGING = {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'warning.log'),
+            'formatter': 'verbose',  # Use the 'verbose' formatter
         },
     },
     'loggers': {
+        # Log all messages from your application
         '': {
             'handlers': ['file'],
             'level': 'WARNING',
             'propagate': True,
+        },
+    },
+    'formatters': {
+        'verbose': {
+            # Output the date, level name (error level), message, and pathname (which includes the route of the API)
+            'format': '[%(asctime)s] [%(levelname)s] [%(message)s]',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
 }
