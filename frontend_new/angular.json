@@ -361,5 +361,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "fe762b79-c6df-4da2-9a75-f2e632de698b"
   }
 }
