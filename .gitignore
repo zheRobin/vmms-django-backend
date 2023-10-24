@@ -8,3 +8,7 @@ misc/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 venv/
+.venv/*
+.env
+app/vmms/static/*
+app/vmms/static_old/*

@@ -70,7 +70,7 @@ class ClientSecretClientSerializer(serializers.ModelSerializer):
 
     def get_volume_request(self, obj):
         volume_request = None
-        if obj.volume_requests.all().count() > 0:
+        if obj.volume_requests.all().count() > 0 and obj.remote_volume_control_enabled == True:
             volume_request = obj.volume_requests.order_by('-time')[0]
             volume_request = {
                 'id': volume_request.id,
