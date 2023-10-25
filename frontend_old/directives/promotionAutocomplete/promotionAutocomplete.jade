@@ -1,7 +1,0 @@
-.pa-container
-    .form-group(ng-class="{'has-success': model !== undefined, 'has-feedback': model !== undefined}")
-        input.form-control(ng-class='{"pa-query-field__suggestions": playlists.length > 0}', ng-model='query', placeholder='Start typing promotion name...')
-        span.glyphicon.glyphicon-ok.form-control-feedback(ng-hide="model === undefined")
-    .pa-suggestions
-        .pa-suggestion(ng-class='{"pa-suggestion__last": $last, "pa-suggestion__first": $first}', ng-click='select(p)', ng-repeat='p in promotions track by p.promotion_id')
-            {{ p.name }}

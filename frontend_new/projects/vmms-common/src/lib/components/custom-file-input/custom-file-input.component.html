@@ -1,9 +1,0 @@
-<div class="input">
-  <label class="input-label" *ngIf="label">{{label}}</label>
-  <button class="btn-add" (click)="fileUpload.click()">
-    Upload File
-    <input #fileUpload type="file" [style.display]="'none'" (change)="upload($event)" [accept]="accept">
-  </button>
-</div>
-
-

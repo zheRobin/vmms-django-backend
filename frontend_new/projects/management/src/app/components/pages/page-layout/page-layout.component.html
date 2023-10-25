@@ -1,7 +1,0 @@
-<app-nav-bar *ngIf="currentUser$ | async"
-             [title]="'VMMS'" [navItemList]="navItemList" (logoutClicked)="logout()">
-</app-nav-bar>
-
-<div class="page-content">
-  <router-outlet></router-outlet>
-</div>

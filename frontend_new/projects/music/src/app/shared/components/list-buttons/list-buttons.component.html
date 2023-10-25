@@ -1,9 +1,0 @@
-<div class="button-group">
-  <div>Create</div>
-  <div class="btn-add" (click)="create()">{{contentType}}</div>
-  <div class="btn-add" (click)="createFolder()">Folder</div>
-</div>
-
-<button *ngIf="(currentItem$ | async) as currentItem" class="btn-remove" (click)="delete(currentItem)">
-  Remove Selected
-</button>

@@ -1,7 +1,0 @@
-div.categories-container(ng-show='model !== undefined', data-masonry, data-masonry-options='{ "columnWidth": 200 }', data-reload-on-show, )
-    div.genre-category(data-masonry-item, ng-repeat="category in categories")
-        div.category-title {{ category.name }}
-        div.genre(ng-repeat="genre in category.genres")
-            input.genre-checkbox(ng-model="model[genre.id]", id="genre{{ genre.id }}", type="checkbox") 
-            label.genre-name(for="genre{{ genre.id }}")
-                | {{ genre.name }}
