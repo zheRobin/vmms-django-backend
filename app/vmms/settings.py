@@ -31,33 +31,33 @@ def get_environ_vars():
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'warning.log'),
-            'formatter': 'verbose',  # Use the 'verbose' formatter
-        },
-    },
-    'loggers': {
-        # Log all messages from your application
-        '': {
-            'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
-        },
-    },
-    'formatters': {
-        'verbose': {
-            # Output the date, level name (error level), message, and pathname (which includes the route of the API)
-            'format': '[%(asctime)s] [%(levelname)s] [%(message)s]',
-            'datefmt': '%Y-%m-%d %H:%M:%S',
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'WARNING',
+#             'class': 'logging.FileHandler',
+#             'filename': os.path.join(BASE_DIR, 'warning.log'),
+#             'formatter': 'verbose',  # Use the 'verbose' formatter
+#         },
+#     },
+#     'loggers': {
+#         # Log all messages from your application
+#         '': {
+#             'handlers': ['file'],
+#             'level': 'WARNING',
+#             'propagate': True,
+#         },
+#     },
+#     'formatters': {
+#         'verbose': {
+#             # Output the date, level name (error level), message, and pathname (which includes the route of the API)
+#             'format': '[%(asctime)s] [%(levelname)s] [%(message)s]',
+#             'datefmt': '%Y-%m-%d %H:%M:%S',
+#         },
+#     },
+# }
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
