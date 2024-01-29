@@ -235,7 +235,7 @@ DATABASES['promotion-tool'] = {
     'PASSWORD': os.environ['PROMOTION_RDS_PASSWORD'],
     'HOST': os.environ['PROMOTION_RDS_HOSTNAME'],
     'PORT': os.environ['PROMOTION_RDS_PORT'],
-    'CONN_MAX_AGE': '60',
+    'CONN_MAX_AGE': '600',
     'CONN_HEALTH_CHECKS': False,
 }
 
