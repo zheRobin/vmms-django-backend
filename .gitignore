@@ -10,5 +10,4 @@ misc/
 venv/
 .venv/*
 .env
-app/vmms/static/*
 app/vmms/static_old/*
