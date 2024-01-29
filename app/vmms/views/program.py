@@ -6,7 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from django.core.cache import cache
 from vmms.models import (ProgramFolder, Program, Event,
                          ClientContent, Client, ProgramPreviewLink)
 from vmms.permissions import IsMusicUser
@@ -34,6 +34,11 @@ class ProgramViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         SEARCH_FIELDS = ['name']
         query = self.request.query_params.get('query', None)
+        limit = self.request.query_params.get('limit', None)
+        cache_key = f'program-{query}-{limit}'
+        cached_queryset = cache.get(cache_key)
+        if cached_queryset is not None:
+            return cached_queryset
         queryset = Program.objects.all()
         if query is not None:
             philter = None
@@ -45,7 +50,6 @@ class ProgramViewSet(viewsets.ModelViewSet):
                     philter |= new_philter
             queryset = queryset.filter(philter)
 
-        limit = self.request.query_params.get('limit', None)
         if limit is not None:
             limit = int(limit)
             queryset = queryset[:limit]
