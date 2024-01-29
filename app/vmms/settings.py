@@ -213,6 +213,8 @@ DATABASES["default"] = {'ENGINE': 'django.db.backends.postgresql_psycopg2',
                         'PASSWORD': os.environ['MAIN_RDS_PASSWORD'],
                         'HOST': os.environ['MAIN_RDS_HOSTNAME'],
                         'PORT': os.environ['MAIN_RDS_PORT'],
+                        'CONN_MAX_AGE': 60,
+                        'CONN_HEALTH_CHECKS': False,
                         }
 
 DATABASES['import-tool'] = {
@@ -222,6 +224,8 @@ DATABASES['import-tool'] = {
     'PASSWORD': os.environ['IMPORT_RDS_PASSWORD'],
     'HOST': os.environ['IMPORT_RDS_HOSTNAME'],
     'PORT': os.environ['IMPORT_RDS_PORT'],
+    'CONN_MAX_AGE': 60,
+    'CONN_HEALTH_CHECKS': False,
 }
 
 DATABASES['promotion-tool'] = {
@@ -231,6 +235,8 @@ DATABASES['promotion-tool'] = {
     'PASSWORD': os.environ['PROMOTION_RDS_PASSWORD'],
     'HOST': os.environ['PROMOTION_RDS_HOSTNAME'],
     'PORT': os.environ['PROMOTION_RDS_PORT'],
+    'CONN_MAX_AGE': 60,
+    'CONN_HEALTH_CHECKS': False,
 }
 
 # Password validation
