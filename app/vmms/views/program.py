@@ -40,7 +40,7 @@ class ProgramViewSet(viewsets.ModelViewSet):
             queryset = queryset[:limit]
         
         serialized_obj = ProgramShallowSerializer(queryset, many=True)
-        cache.set(cache_key, serialized_obj.data, 60 * 15)
+        cache.set(cache_key, serialized_obj.data, 60 * 5)
         
         return Response(serialized_obj.data)
 
