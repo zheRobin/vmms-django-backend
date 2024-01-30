@@ -32,28 +32,24 @@ class ProgramViewSet(viewsets.ModelViewSet):
         return ProgramSerializer
 
     def get_queryset(self):
-        SEARCH_FIELDS = ['name']
         query = self.request.query_params.get('query', None)
         limit = self.request.query_params.get('limit', None)
         cache_key = f'program-{query}-{limit}'
-        cached_queryset = cache.get(cache_key)
-        if cached_queryset is not None:
-            return cached_queryset
+        cached_ids = cache.get(cache_key)
+
+        if cached_ids is not None:
+            return Program.objects.filter(id__in=cached_ids)
+
         queryset = Program.objects.all()
         if query is not None:
-            philter = None
-            for field in SEARCH_FIELDS:
-                new_philter = Q(**{field + '__icontains': query})
-                if philter is None:
-                    philter = new_philter
-                else:
-                    philter |= new_philter
-            queryset = queryset.filter(philter)
+            queryset = queryset.filter(Q(name__icontains=query))
 
         if limit is not None:
             limit = int(limit)
             queryset = queryset[:limit]
-        cache.set(cache_key, queryset, 60 * 15) 
+        
+        cache.set(cache_key, list(queryset.values_list('id', flat=True)), 60 * 15) 
+
         return queryset
 
 
