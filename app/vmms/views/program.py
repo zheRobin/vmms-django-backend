@@ -24,6 +24,13 @@ class ProgramFolderViewSet(viewsets.ModelViewSet):
 
 
 class ProgramViewSet(viewsets.ModelViewSet):
+    serializer_class = ProgramSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProgramShallowSerializer
+        return ProgramSerializer
+
     def list(self, request):
         query = self.request.query_params.get('query', None)
         limit = self.request.query_params.get('limit', None)
@@ -32,7 +39,7 @@ class ProgramViewSet(viewsets.ModelViewSet):
         if data is not None:
             return Response(data)
 
-        queryset = Program.objects.all()
+        queryset = self.get_queryset()
         if query is not None:
             queryset = queryset.filter(Q(name__icontains=query))
         if limit is not None:
@@ -40,9 +47,12 @@ class ProgramViewSet(viewsets.ModelViewSet):
             queryset = queryset[:limit]
         
         serialized_obj = ProgramShallowSerializer(queryset, many=True)
-        cache.set(cache_key, serialized_obj.data, 60 * 5)
+        cache.set(cache_key, serialized_obj.data, 60 * 15)
         
         return Response(serialized_obj.data)
+
+    def get_queryset(self):
+        return Program.objects.all()
 
 
 @api_view(['GET'])
